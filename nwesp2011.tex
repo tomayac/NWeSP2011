@@ -343,6 +343,7 @@
 % (Unless specifically asked to do so by the journal or conference you plan
 % to submit to, of course. )
 \usepackage[utf8]{inputenc}
+\usepackage{graphicx}
 \usepackage[T1]{fontenc}
 \usepackage[hyphens]{url}
 \usepackage{listings}
@@ -377,7 +378,7 @@
 %
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
-\title{Tracking Provenance in Mash-up APIs with the Example of a R/W API for RDF Video Annotations}
+\title{Adding Meaning to Facebook Posts Via A Mash-up Web Service And Tracking Its Data's Provenance}
 
 % author names and affiliations
 % use a multiple column layout for up to three different
@@ -431,7 +432,7 @@ Email: gabarro@lsi.upc.edu}}
 
 \begin{abstract}
 %\boldmath
-Converting unstructured data into structured Linked Data can, for example, be achieved via Natural Language Processing (NLP) Web services. We have implemented a RESTful Web service for on-the-fly closed caption track-based Resource Description Framework (RDF) annotation of YouTube videos. For this Web service to work, we use several third party NLP Web services in combination in order to retrieve more accurate results in the sense of emergence. In consequence, our Web service uses several third party Web services transparently in the background in order to deliver its output. In this paper, we first present an approach to consolidate extracted named entities from YouTube closed caption tracks that are detected by different third party Web services when being used in parallel. Second, we describe how one can keep track of the provenance of the contributions of each single Web service to the combined result of all Web services. Based thereon, the main contribution of the paper is our description of how provenance metadata can be automatically added to the output of mash-up Web services.
+The social networking website Facebook offers to its users a feature called ``status updates" (or just ``status"), which allows for users to create microposts directed to all, or a subset of their contacts. Readers can respond to microposts, or in addition to that also click a ``Like" button to show their appreciation for a certain micropost. Adding semantic meaning to such microposts can, for example, be achieved via Natural Language Processing (NLP). We have implemented a RESTful mash-up NLP Web service based on several third party NLP Web services in combination in order to retrieve more accurate results in the sense of emergence. In consequence, our Web service uses third party Web services transparently in the background in order to deliver its output. In this paper, we describe how one can keep track of the provenance of the contributions of each single Web service to the combined result of all Web services. The main contribution of the paper is our description of how provenance metadata can be automatically added to the output of mash-up Web services.
 \end{abstract}
 % IEEEtran.cls defaults to using nonbold math in the Abstract.
 % This preserves the distinction between vectors and scalars. However,
@@ -460,28 +461,14 @@ Converting unstructured data into structured Linked Data can, for example, be ac
 %%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Introduction}                                                      \label{sec:introduction}
-With SemWebVid~\cite{Steiner:SemWebVid}, we introduced a client-side interactive Ajax application for the automatic
-generation of RDF video annotations. In this paper, we have re-implemented and improved the annotation logic on the
-server-side, resulting in a RESTful read/write-enabled Web service for RDF video annotations. In the background, this
-Web service calls several enrichment services in parallel and merges their results in order to consolidate named entities that are extracted from closed captions tracks of YouTube videos. We present two linking algorithms for two different kinds of enrichment services: Natural Language Processing (NLP) and URI lookup Web services. Our first objective is to expose before isolated data sources like the set of videos of YouTube as Linked Data on the Web in RDF format, with the option of a write-enabled back-channel for manual corrections. Our second objective is upon merging results from different data sources, being able to track back provenance of Linked Data in order to judge its trustworthiness and reliability. In this paper, we propose an approach for maintaining trackable provenance metadata for mash-up Web services.
+According to official statistics~\cite{Facebook}, the social networking website Facebook\footnote{\url{https://www.facebook.com/}} has more than 500 million active users out of which half log on to Facebook in any given day. The average Facebook user has 130 friends, and creates 90 pieces of content each month. This sums up to an impressive number of overall twenty-two billion five hundred million pieces of content per month. Similar to the social networking and microblogging website Twitter with its Twitter Search\footnote{\url{https://search.twitter.com/}}, Facebook as well offers both a search feature on the website, and a JSON-based search API over status updates from everyone\footnote{Sample Facebook search for ``salamanca, spain": \url{https://graph.facebook.com/search?q=salamanca,\%20spain&type=post}}. In contrast, however, while Twitter grants selected parties access to its Streaming API~\cite{Twitter} (also known as ``Gardenhose") for research purposes, for Facebook there is no such documented option. To address this shortage, we have developed a Google Chrome browser extension called Facebook Swarm NLP\footnote{\url{https://chrome.google.com/webstore/detail/nhcgonkeclhijbkpelhmclmjijphafhk}} that injects JavaScript code into the Facebook.com homepage. The extension first checks if the user is logged in to Facebook.com, and if so, retrieves the status updates of the current user's Facebook homepage, and performs named entity extraction via Natural Language Processing (NLP) using a remote NLP Web service\footnote{\url{http://tomayac.no.de/entity-extraction/combined/{text_to_be_analyzed}}} on each of the status updates. The extracted named entities are then displayed below each post, as can be seen in Figure \ref{fig:facebook}. Finally the extracted named entities are sent to Google Analytics to compute trends by pivoting named entities by Analytics data, like users' geographic locations.
 
-A YouTube video is described by a Google Data Atom feed\footnote{See
-\url{http://gdata.youtube.com/feeds/api/videos/Rq1dow1vTHY} for a concrete example.}. In order to semantically annotate
-a YouTube video, we concentrate on the following fields of this feed (in XPath syntax): title ({\tt
-/entry/media:group/media:title}), description ({\tt /entry/media:group/media:description}), and tags ({\tt
-/entry/media:group/media:keywords}). Other technical YouTube metadata (e.g. duration, creation date) are also exposed
-as Linked Data since we benefit from the mappings established by the W3C Ontology for Media Resources~\cite{W3C:MediaOntology} (see also the
-section~\ref{sec:metadata}).
-
-In the following, we differentiate subtitles from closed captions, where subtitles are hard-encoded into the video
-frames, while closed captions are separate textual resources. Currently, we only work with closed captions. Closed
-captions are based on audio transcriptions, which consist of a plaintext representation of speech of a video, which are
-then time aligned to the video. YouTube offers an automatic audio transcription service and video owners can also
-upload audio transcriptions and/or closed captions files on their
-own\footnote{\url{http://googleblog.blogspot.com/2009/11/automatic-captions-in-youtube.html}}. Since YouTube supports
-closed captions in several languages, we also use this data when available for the task of semantic video
-annotation\footnote{See \url{http://www.youtube.com/watch_ajax?action_get_caption_track_all&v=Rq1dow1vTHY} for a
-concrete example.}.
+\begin{figure}[htb!]
+  \centering
+    \includegraphics[width=0.45\textwidth]{facebook-swarm-nlp.png}
+  \caption{Facebook Swarm NLP Chrome Extension. Extracted named entities have a pale yellow background.}     
+  \label{fig:facebook}
+\end{figure}
 
 The remainder of this paper is structured as follows: In Section~\ref{sec:services}, we introduce two classes of Web
 services that allow for unstructured data to be converted into Linked Data. In Section~\ref{sec:consolidation}, we
