@@ -461,7 +461,7 @@ The social networking website Facebook offers to its users a feature called ``st
 %%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Introduction}                                                      \label{sec:introduction}
-According to official statistics~\cite{Facebook}, the social networking website Facebook\footnote{\url{https://www.facebook.com/}} has more than 500 million active users out of which half log on to Facebook in any given day. The average Facebook user has 130 friends, and creates 90 pieces of content each month. This sums up to an impressive number of overall twenty-two billion five hundred million pieces of content per month. Similar to the social networking and microblogging website Twitter with its Twitter Search\footnote{\url{https://search.twitter.com/}}, Facebook as well offers both a search feature on the website, and a JSON-based search API over status updates from everyone\footnote{Sample Facebook search for ``salamanca, spain": \url{https://graph.facebook.com/search?q=salamanca,\%20spain&type=post}}. In contrast, however, while Twitter grants selected parties access to its Streaming API~\cite{Twitter} (also known as ``Gardenhose") for research purposes, for Facebook there is no such documented option. To address this shortage, we have developed a Google Chrome browser extension called Facebook Swarm NLP\footnote{\url{https://chrome.google.com/webstore/detail/nhcgonkeclhijbkpelhmclmjijphafhk}} that injects JavaScript code into the Facebook.com homepage. The extension first checks if the user is logged in to Facebook.com, and if so, retrieves the status updates of the current user's Facebook homepage, and performs named entity extraction via Natural Language Processing (NLP) using a remote NLP Web service\footnote{\url{http://tomayac.no.de/entity-extraction/combined/{text_to_be_analyzed}}} on each of the status updates. The extracted named entities are then displayed below each post, as can be seen in Figure \ref{fig:facebook}. Finally the extracted named entities are sent to Google Analytics to compute trends by pivoting named entities by Analytics data, like users' geographic locations.
+According to official statistics~\cite{Facebook}, the social networking website Facebook\footnote{\url{https://www.facebook.com/}} has more than 500 million active users out of which half log on to Facebook in any given day. The average Facebook user has 130 friends, and creates 90 pieces of content each month. This sums up to an impressive number of overall twenty-two billion five hundred million pieces of content per month. Similar to the social networking and microblogging website Twitter with its Twitter Search\footnote{\url{https://search.twitter.com/}}, Facebook as well offers both a search feature on the website, and a JSON-based search API over status updates from everyone\footnote{Sample Facebook search for ``salamanca, spain": \url{https://graph.facebook.com/search?q=salamanca,\%20spain&type=post}}. In contrast, however, while Twitter grants selected parties access to its Streaming API~\cite{Twitter} (also known as ``Gardenhose") for research purposes, for Facebook there is no such documented option. To address this shortage, we have developed a Google Chrome browser extension called Facebook Swarm NLP\footnote{\url{https://chrome.google.com/webstore/detail/nhcgonkeclhijbkpelhmclmjijphafhk}} that injects JavaScript code into the Facebook.com homepage and performs analysis on microposts. Given a broad enough installation base, this extension allows for a random sample of microposts to be processed as they become available on Facebook, in effect a very modest firehose. The extension first checks if the user is logged in to Facebook.com, and if so, retrieves the status updates of the current user's Facebook homepage, and performs named entity extraction via Natural Language Processing (NLP) using a remote NLP Web service\footnote{\url{http://tomayac.no.de/entity-extraction/combined/{text_to_be_analyzed}}} on each of the status updates. The extracted named entities are then displayed below each post, as illustrated in Figure \ref{fig:facebook}. Finally the extracted named entities are sent to Google Analytics to compute trends by pivoting named entities by Analytics data, like users' geographic locations.
 
 \begin{figure}[htb!]
   \centering
@@ -477,104 +477,17 @@ present how video annotations are represented in RDF. In Section~\ref{sec:tracki
 maintain provenance metadata in our Web service. We discuss related work in Section~\ref{sec:related} and finally
 conclude in Section~\ref{sec:conclusion}.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%  2. Web services for converting unstructured data into Linked Data  %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{Web services for converting unstructured data into Linked Data}    \label{sec:services}
-In this section, we describe both Natural Language Processing (NLP) and URI lookup Web services.
-
-%%%  2.1 NLP Web Services  %%%
-\subsection{NLP Web Services}                                               \label{sec:nlp}
-The NLP Web services that we use for our experiments take a text fragment as an input, perform Named Entity Recognition
-(NER) on it and then link the extracted entities back into the Linked Open Data (LOD)
-cloud\footnote{\url{http://lod-cloud.net/}}. We use
+The NLP Web services that we use for our experiments take a text fragment as an input, perform Named Entity Recognition (NER) on it and then link the extracted entities back into the Linked Open Data (LOD) cloud\footnote{\url{http://lod-cloud.net/}}. We use
 OpenCalais\footnote{\url{http://www.opencalais.com/documentation/}},
 Zemanta\footnote{\url{http://developer.zemanta.com/docs/}} and
 AlchemyAPI\footnote{\url{http://www.alchemyapi.com/api/entity/}} as NLP Web services.
-
-% DVD: is there a reason that you not use the DBPedia SPARQL endpoint?
-% TOM: See ref{sec:technicalnote}
-
-%%%  2.2 URI Lookup Web Services  %%%
-\subsection{URI Lookup Web Services}                                        \label{sec:urilookup}
-The URI lookup Web services take a term as an input and return the set of URIs that most probably represent this term.
-We use Freebase\footnote{\url{http://wiki.freebase.com/wiki/Search}}, DBpedia
-Lookup\footnote{\url{http://lookup.dbpedia.org/}}, Sindice\footnote{\url{http://sindice.com/developers/api}}, and
-Uberblic\footnote{\url{http://uberblic.org/developers/apis/search/}} as URI lookup Web services.
-
-%%%  2.3 Technical Note  %%%
-\subsection{Technical Note}                                                 \label{sec:technicalnote}
-For both classes of services, we use them in parallel, aiming at the emergence effect in the sense of Aristotle:
+We use these services in parallel, aiming at the emergence effect in the sense of Aristotle:
 ``\emph{[\ldots] the totality is not, as it were, a mere heap, but the whole is something besides the parts
-[\ldots]}''\footnote{Aristotle, Metaphysics, Book H 1045a 8-10.}. Our Web service is written in JavaScript and is based
-on Node.js\footnote{\url{http://nodejs.org/}} and the Express\footnote{\url{http://expressjs.com/index.html}} framework.
-As JSON and XML are well-supported by JavaScript, we use the third parties' JSON or XML APIs as a means of communication with all services, and not the
-potential SPARQL endpoints or RDF APIs. In the next section, we describe our strategies for entity consolidation in
-both cases.
+[\ldots]}''\footnote{Aristotle, Metaphysics, Book H 1045a 8-10.}. 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%  3. Entity Consolidation  %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Entity Consolidation}                                              \label{sec:consolidation}
-We define the process of entity consolidation as the merge of entities, i.e., if several services extract the same
-entity from the same input text fragment or term, we say that the entity is consolidated.
-
-%%%  3.1 Interplay Of the Web Services  %%%
-\subsection{Interplay Of the Web Services}                                  \label{sec:interplay}
-As outlined before, the metadata for a YouTube video are its \textit{title}, its \textit{description}, its \textit{tags}, and its \textit{closed captions
-tracks}. We first analyze the tags one-by-one with each URI lookup Web services through a helper wrapper sub-service of our Web service. We then
-analyze the title combined with the description (first run) and the closed captions track (second run) through another wrapper helper sub-service with each of the NLP Web services. We have chosen this order because we have observed that sometimes video description
-and closed captions are not related at all. This happens when the video description gets used not in a way to describe
-the video content on a high level but, for example, to advertise different videos from the same user. In this case, the
-NLP gets steered in a completely wrong direction. During our experiments, this occurred often enough for us to separate
-the NLP analysis of descriptions and closed captions into two independent steps. When all these analysis steps are completed,
-we try to match the extracted entities from all classes of services back in the video. In the following, we present our
-approach for how to consolidate entities from URI lookup Web services and NLP Web services.
-
-%%%  3.2 Entity Consolidation for URI Lookup Web Services  %%%
-\subsection{Entity Consolidation for URI Lookup Web Services}               \label{sec:consolidation-uri}
-As as first step, we have implemented a wrapper helper sub-service for all four URI lookup services (see~\ref{sec:urilookup}) that assimilates the particular
-service's output to a common output format. This format is the least common multiple of the information of all Web
-service results. For our experiments, we agreed on the JSON format. In the example below, we use the term ``Google
-Translate'' to illustrate the approach. Three services return back a DBpedia URI, Sindice being the only one returning
-a different result in a first place.
-\begin{lstlisting}
-[
-  {
-    "name": "Google Translate",
-    "uris": [
-      "http://dbpedia.org/resource/Google_Translate"
-    ],
-    "source": "freebase,uberblic,dbpedia",
-    "relevance": 0.75
-  }
-]
-\end{lstlisting}
-
-The corresponding request to our wrapper API that calls all four URI lookup Web services in the background is via
-\texttt{GET}
-\url{/uri-lookup/combined/Google%20Translate} while the particular results from each service are available at
-\url{/uri-lookup/{service_name}/Google%20Translate}.
-We observe in this example that even in the lowest data representation level (JSON), we maintain provenance metadata in
-the form of a \texttt{source} field.
-
-In order to agree on a winner entity, a majority-based voting system is used. As soon as for two entities only one of
-these entities' URIs match, we consider the entity consolidated and can merge the results. The problem, however, is
-that both Freebase and Uberblic return results in their own namespaces (e.g., for ``Google Translate'' the results
-are\nofootnote{\url{http://freebase.com/en/google_translate}},
-and\nofootnote{\url{http://uberblic.org/resource/67dc7037-6ae9-406c-86ce-997b905badc8#thing}}), whereas Sindice and
-DBpedia Lookup return results from DBpedia (Sindice returns other results as well). Freebase and Uberblic interlink
-their results with DBpedia at an \url{owl:sameAs} level in the case of Freebase, and by referencing the source
-(\url{umeta:source_uri}) for Uberblic. Therefore, by retrieving and parsing the referenced resources in the services'
-namespaces, we can map back to DBpedia URIs and thus match all four services' results on the DBpedia level. Each
-service's result contributes with a relevance of 0.25 to the final result. In this example, when three services agree
-on the same result, the resulting relevance is thus the sum of the singular relevance scores (0.75 in this case).
-
-%%%  3.3 Entitiy Consolidation for NLP Web Services  %%%
-\subsection{Entitiy Consolidation for NLP Web Services}                     \label{sec:consolidation-nlp}
-Similarly to URI lookup entity consolidation, we have implemented a second wrapper helper Web service for the three NLP services (see~\ref{sec:nlp}). While the
+\subsection{Combining Results from Different NLP Web Services}                     \label{sec:consolidation-nlp}
+We have implemented a wrapper helper Web service for the three NLP services (see~\ref{sec:nlp}). While the
 original calls to each particular NLP service are all HTTP \texttt{POST}-based, we have implemented the wrapper
 \texttt{GET}- and \texttt{POST}-based. All NLP Web services return entities with their types and/or subtypes, names,
 relevance, and URIs that link into the LOD cloud. The problem is that each service has implemented its own typing
@@ -730,18 +643,6 @@ Lookup services accept one-word arguments (e.g., ``google''), only AlchemyAPI fr
 arguments. The two other services accept only non-trivial text fragments (e.g., ``google is a company founded by larry
 page'').
 
-%%%  3.4 Identity Links On the Semantic Web  %%%
-\subsection{Identity Links On the Semantic Web}                             \label{sec:sameasorg}
-In order to tackle the problem of different namespaces in results that we have outlined in the
-Section~\ref{sec:consolidation-uri}, a straightforward idea is to use a Web service such as
-<sameAs>\footnote{\url{http://sameas.org/}} to easily find mappings from one namespace into another. In practice,
-however, while many data sources in the Linked Data world are marked as being equal to each other (e.g.,
-\url{http://dbpedia.org/resource/Barack_Obama} \texttt{owl:sameAs} \url{http://rdf.freebase.com/rdf/en.barack_obama}),
-the quality of such equality links is not always excellent. As Halpin et al. show in~\cite{Halpin:SameAs}, the problem
-with \texttt{owl:sameAs} is that people tend to use it very differently. The authors of~\cite{Halpin:SameAs}
-differentiate four separate usage styles, each with its particular implications. Inference is thus problematic, if not
-impossible, when the sense of the particular use of \texttt{owl:sameAs} is unknown.
-
 %%%  3.5 Design of the Web Service  %%%
 \subsection{Design of the Web Service}                                      \label{sec:design}
 % DVD: will you publish the URI where we and reviewers can test the web service?
@@ -763,69 +664,6 @@ service supports the following operations:
 \item Getting a plain text audio transcription from YouTube for a video with a given video ID: \texttt{GET} \url{/youtube/video/{video_id}/audiotranscription}
 \item Getting a plain text audio transcription in a given language from YouTube for a video with a given video ID: \texttt{GET} \url{/youtube/video/{video_id}/audiotranscription/{language_code}}
 \end{itemize}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%  4. Describing Videos in RDF  %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Describing Videos in RDF}                                          \label{sec:representing}
-In this section, we present the particular components of the video metadata available and their representation in RDF.
-
-%%%  4.1 Basic YouTube Metadata  %%%
-\subsection{Basic YouTube Metadata}                                         \label{sec:metadata}
-We use the W3C Ontology for Media Resources~\cite{W3C:MediaOntology} as the central vocabulary, mainly because it
-already defines a set of
-mappings\footnote{\url{http://www.w3.org/2008/WebVideo/Annotations/drafts/ontology10/CR/test.php?table=YouTube}} not
-only for YouTube metadata, but also for many other existing metadata formats. This ontology aims to foster the
-interoperability among various kinds of metadata formats currently used to describe media resources on the Web. From
-this vocabulary, we use the following properties: \url{ma:title}, \url{ma:creator}, \url{ma:createDate},
-\url{ma:description} and others technical properties which have direct mappings to YouTube metadata.
-
-%%%  4.2 YouTube Tags  %%%
-\subsection{YouTube Tags}                                                   \label{sec:youtube}
-In order to represent YouTube tags, or rather, semantically annotated YouTube tags, we use the Common Tag
-vocabulary~\cite{CommonTag:Spec}. A resource is \url{ctag:tagged} with a \url{ctag:Tag} which consists of a textual
-\url{ctag:label} and a pointer to a resource that specifies what the label \url{ctag:means}. The Common Tag vocabulary
-is well-established and developed by both industry and academic partners.
-
-%%%  4.3 Entities in Video Fragments  %%%
-\subsection{Entities in Video Fragments}
-As stated before, the current video annotation Web service is a re-implementation of our previous client-side
-application SemWebVid~\cite{Steiner:SemWebVid}. Hence, we already could collect some experience with modeling video
-data in RDF on our own, and were also inspired by the semantic video search engine
-yovisto\footnote{\url{http://yovisto.com/}}~\cite{Sack:Use,Sack:VideoSearch}. In our first attempt, we used the Event
-Ontology\cite{Raimond:Event} and defined each line (which not necessarily corresponds to a complete sentence) in the
-closed captions track as an \url{event:Event}. In the current implementation, we simplified the annotation model by
-removing the notion of events, and by introducing the notion of video fragments instead. We split the single lines in
-the complete closed captions track in complete sentences. Consequently, a video fragment now stretches over a complete
-sentence which usually contains more than just one line in the closed captions track. This matches much more the human
-perception of a self-contained incident in a video.
-
-For addressing a video fragment, we use the Media Fragment URIs~\cite{W3C:MediaFrags} specification. Media Fragment
-URIs are also supported by the Ontology for Media Resources via the \url{ma:MediaFragment} property. In particular, we
-use the temporal dimension (e.g.\nofootnote{\url{http://example.org/video.webm#t=10,20}}) which is defined by its start
-and end time relative to the entire video play time. In addition to the temporal dimension, we also use the track
-dimension (e.g.\nofootnote{\url{http://example.org/video.webm#track=closedcaptions}}) which allows for addressing only
-a closed captions track. The value of the parameter \texttt{track} is a free-form UTF-8 string, so we are flexible with
-regards to its usage.
-
-In the previous SemWebVid implementation, we used \url{event:factor}, \url{event:product}, and \url{event:agent} to
-relate events with factors (non-person entities extracted), products (particular plain text closed captions lines), and
-agents (persons extracted). In the current implementation, we consistently use the same Common Tag vocabulary to
-annotate entities in a temporal video fragment (see Section~\ref{sec:youtube}). We thus have:
-\begin{lstlisting}
-<http://example.org/video.webm#t=10,20>
-  a ma:MediaFragment ;
-  ctag:tagged
-    [ a ctag:Tag ;
-      ctag:label "example" ;
-      ctag:means <http://example.org/example#>
-    ] .
-\end{lstlisting}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%  5. Tracking Provenance With Multiple Data Sources  %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Tracking Provenance With Multiple Data Sources}                    \label{sec:tracking}
 As outlined before, we use several data sources (Web services) in the background in order to deploy our own video annotation Web service.
@@ -1028,32 +866,6 @@ The focus of Carroll et al. in~\cite{carroll2005} is on the provenance of triple
 
 In the WS-* world, BPEL4WS, described by Curbera et al. in~\cite{Curbera:2003:NSW:944217.944234} provides a formal language for the specification of business processes and business interaction protocols. This allows for the combination of several Web services, however, does not credit back concrete outputs of a combined Web service to the underlying Web services.
 
-\subsection{Video Description Related Work}
-
-In~\cite{Sack:VideoSearch}, Waitelonis et al. address the problem of how to deploy exploratory search for video data by
-using semantic search technology for the yovisto video search engine. They show how exploratory search can be enriched
-by information from the LOD cloud in order to facilitate navigation in big video archives. Yovisto supports several
-ways to annotate a video with metadata: video-related, and video-time-related tags. Video-related tags are applied to
-the entire video and are entered by the initial video uploader, whereas video-time-related tags only apply to a certain
-point in the video. They can either be automatically extracted from the video on a certain timestamp (e.g. by analyzing
-the video images with OCR methods), or can be user-generated tags also on a certain timestamp. In a different paper,
-Waitelonis et al. show how using permutations of a term and this term's surrounding context and by detecting paths
-between entities, a legacy keyword-based video search engine can be converted into a semantic video search
-engine~\cite{Sack:Use}. This approach uses a keyword-to-DBpedia-URI mapping heuristic. However, as far as we can tell,
-provenance metadata is not maintained. Future work will compare the results of the yovisto heuristic with ours using
-agreed-on benchmarks.
-
-In~\cite{Choudhury:YouTube}, Choudhury et al. describe a framework for semantic enrichment, ranking, and integration of
-Web video tags using Semantic Web technologies. In order to enrich the user-generated tag space which is often sparse,
-metadata such as the recording time and location, the video title and video description, social features such as
-playlists that a video appears in and related videos, etc. are used. Next, the tags are ranked by their co-occurrence
-and in a final step interlinked to DBpedia concepts for greater integration with other datasets. Choudhury et al.
-disambiguate the tags using WordNet\footnote{\url{http://wordnet.princeton.edu/}} synsets if possible. This means that
-if there is only one matching synset in WordNet, the corresponding WordNet URI in DBpedia is selected. If there are
-more than one matching synsets, the tags and their context tags similarity are computed and thereby tried to decide on
-an already existing tag URI. For words that are not contained in WordNet, Sindice is used to find the most probable
-concept. To the best of our knowledge provenance metadata is not maintained.
-
 %%%%%%%%%%%%%%%%%%%%%%%
 %%%  7. Conclusion  %%%
 %%%%%%%%%%%%%%%%%%%%%%%
@@ -1078,10 +890,8 @@ Already commenced future work will be to explore ways to stick to existing stand
 % use section* for acknowledgement
 \section*{Acknowledgment}
 
-We would like to thank Olaf Hartig from the Humboldt-Universit\"{a}t zu Berlin for his kind support with the correct
-use of the Provenance Vocabulary. This work was partly supported by the European Commission under Grant No. 248296 FP7
-I-SEARCH project and by the French Ministry of Industry (\emph{Innovative Web} call) under contract 09.2.93.0966,
-``Collaborative Annotation for Video Accessibility'' (ACAV).
+This work was partly supported by the European Commission under Grant No. 248296 FP7
+I-SEARCH project.
 
 
 % trigger a \newpage just before the given reference
