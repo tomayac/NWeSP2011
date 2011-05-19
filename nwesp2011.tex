@@ -163,7 +163,7 @@ As outlined before, we use several data sources (APIs) in the background in orde
 While our mash-up API supports two output formats (application/json and text/turtle), we have added provenance information exclusively to the text/turtle variant. In order to represent the extracted named entities in a Facebook micropost, we use the Common Tag vocabulary~\cite{CommonTag:Spec}. A micropost is \texttt{ctag:tagged} with a \texttt{ctag:Tag}, which consists of a textual \texttt{ctag:label} and a pointer to a resource that specifies what the label \texttt{ctag:means}. The Common Tag vocabulary is well-established and developed by both industry and academic partners. In order to make statements about a bundle of triples, we group them in a named graph. We use the TriG~\cite{Bizer:TriG} syntax:
 \begin{lstlisting}
 :G = {
-  <https://www.facebook.com/Tomayac/posts/10150177486072286> ctag:tagged [
+  <https://www.facebook.com/Tomayac/posts/10150175940867286> ctag:tagged [
       a ctag:Tag ;
       ctag:label "BibTeX" ;
       ctag:means <http://dbpedia.org/resource/BibTeX>
