@@ -150,7 +150,7 @@ We have implemented a mash-up API for the four NLP APIs. While the original call
 ]
 \end{lstlisting}
 
-These joint results come from a request to our mash-up API via \texttt{GET} \url{/entity-extraction/combined/Tom%20has%20the%20LaTeX%2C%20BibTeX%2C%20LaTex%2C%20LaTex%20blues...}.
+These joint results come from a request to our mash-up API via \texttt{GET} \url{/entity-extraction/combined/Tom%20has%20the%20LaTeX%2C%20BibTeX%2C%20LaTeX%2C%20LaTeX%20blues...}.
 
 \subsection{The Need for Providing Provenance Metadata}
 Hartig et al. mention in~\cite{ipaw10:olaf} some reasons that justify the need for provenance metadata. Among those, linked dataset replication and distribution on the Web with not necessarily always the same namespaces: based on the same source data, different copies of a linked dataset can be created with different degrees of interconnectedness by different publishers.
@@ -158,7 +158,7 @@ Hartig et al. mention in~\cite{ipaw10:olaf} some reasons that justify the need f
 We add to this list the automatic conversion of legacy unstructured data to Linked Data with heuristics where extracted entities -- while being consolidated and backed up by different data sources -- might still be wrong. Especially with our ``mash-up''-like approach, it is very desirable to be able to track back to the concrete source where a certain piece of information might have come from. This enables (i) to correct the error at the root of our API (fighting the cause), (ii) to correct the concrete error in an RDF annotation (fighting the symptom), and (iii) to judge the trustworthiness and quality of a dataset which is probably the most important reason.
 
 \section{Tracking Provenance With Multiple Data Sources}                    \label{sec:tracking}
-As outlined before, we use several data sources (APIs) in the background in order to add meaning to Facebook microposts. Extracted named entities from a Facebook micropost might in consequence be the result of up to four agreeing (or disagreeing) API calls (see Section~\ref{sec:services}). In order to track the contributions of the various sources, we have decided to use the Provenance Vocabulary~\cite{Hartig:Provenance} by Hartig and Zhao with the prefix \texttt{prv}, and the HTTP Vocabulary in RDF~\cite{HTTP:RDF} by Koch et al. with prefix \texttt{http}. We have chosen the HTTP Vocabulary in RDF for the fact that it is a W3C Working Draft  developed by the Evaluation and Repair Tools Working Group (ERT WG), which is part of the World Wide Web Consortium (W3C) Web Accessibility Initiative (WAI). The Provenance Vocabulary was chosen because of its relatively broad implementation in several projects, such as Pubby\footnote{\url{http://www4.wiwiss.fu-berlin.de/pubby/}}, Triplify\footnote{\url{http://triplify.org/Overview}}, and D2R Server\footnote{\url{http://www4.wiwiss.fu-berlin.de/bizer/d2r-server/}}.
+As outlined before, we use several data sources (APIs) in the background in order to add meaning to Facebook microposts. Extracted named entities from a Facebook micropost might in consequence be the result of up to four agreeing (or disagreeing) API calls (see Section~\ref{sec:services}). In order to track the contributions of the various sources, we have decided to use the Provenance Vocabulary~\cite{Hartig:Provenance} by Hartig and Zhao with the prefix \texttt{prv}, the HTTP Vocabulary in RDF~\cite{HTTP:RDF} by Koch et al. with prefix \texttt{http}, and a vocabulary for Representing Content in RDF~\cite{CNT:RDF} by the same authors with prefix \texttt{cnt}. We have chosen the HTTP Vocabulary in RDF for the fact that it is a W3C Working Draft  developed by the Evaluation and Repair Tools Working Group (ERT WG), which is part of the World Wide Web Consortium (W3C) Web Accessibility Initiative (WAI). The Provenance Vocabulary was chosen because of its relatively broad implementation in several projects, such as Pubby\footnote{\url{http://www4.wiwiss.fu-berlin.de/pubby/}}, Triplify\footnote{\url{http://triplify.org/Overview}}, and D2R Server\footnote{\url{http://www4.wiwiss.fu-berlin.de/bizer/d2r-server/}}.
 
 While our mash-up API supports two output formats (/application/json and /text/turtle), we have added provenance information exclusively to the /text/turtle variant. In order to represent the extracted named entities in a Facebook micropost, we use the Common Tag vocabulary~\cite{CommonTag:Spec}. A micropost is \url{ctag:tagged} with a \url{ctag:Tag}, which consists of a textual \url{ctag:label} and a pointer to a resource that specifies what the label \url{ctag:means}. The Common Tag vocabulary is well-established and developed by both industry and academic partners. In order to make statements about a bundle of triples, we group them in a named graph. We use the TriG~\cite{Bizer:TriG} syntax:
 \begin{lstlisting}
@@ -172,7 +172,7 @@ While our mash-up API supports two output formats (/application/json and /text/t
 \end{lstlisting}
 
 \subsection{The Provenance Vocabulary}                                      \label{sec:provenance}
-In this section, we outline the required steps in order to make statements about the provenance of a group of triples contained in a named graph \url{:G} that was generated using several HTTP \texttt{GET} requests to third party APIs. We use the Provenance Vocabulary~\cite{Hartig:Provenance} with the prefix \texttt{prv} and the HTTP Vocabulary in RDF~\cite{HTTP:RDF} with prefix \texttt{http}.
+In this section, we outline the required steps in order to make statements about the provenance of a group of triples contained in a named graph \url{:G} that was generated using several HTTP \texttt{GET} requests to third party APIs. We use the Provenance Vocabulary~\cite{Hartig:Provenance} with the prefix \texttt{prv}, the HTTP Vocabulary in RDF~\cite{HTTP:RDF} with prefix \texttt{http}, and the Representing Content in RDF~\cite{CNT:RDF} vocabulary with prefix \texttt{cnt}.
 
 First, we state that \url{:G} is both a \url{prv:DataItem} and obviously an \url{rdfg:Graph}. \url{:G} is \url{prv:createdBy} the process of a \url{prv:DataCreation}. This \url{prv:DataCreation} is \url{prv:performedBy} a \url{prv:NonHumanActor}, a \url{prvTypes:DataCreatingService} to be precise. This service is \url{prv:operatedBy} a human (\url{http://tomayac.com/thomas_steiner.rdf#me}). Time is often important for provenance, so the \url{prv:performedAt} date of the \url{prv:DataCreation} needs to be saved. During the process of the \url{prv:DataCreation} there are \url{prv:usedData}, which are \url{prv:retrievedBy} a \url{prv:DataAcess} that is \url{prv:performedAt} a certain time, and \url{prv:performedBy} a non-human actor (our API) that is \url{prv:operatedBy} a human (\url{http://tomayac.com/thomas_steiner.rdf#me}. For the \url{prv:DataAccess} (there is one for each third party API involved), we \url{prv:accessedService} from a \url{prv:DataProvidingService} of which we \url{prv:accessedResource} at a certain \url{irw:WebResource}. Therefore, we \url{prvTypes:exchangedHTTPMessage} which is an \url{http:Request} using \url{http:httpVersion} ``1.1'' and the \url{http:methodName} ``GET''.
 
@@ -206,7 +206,7 @@ meaning \url{http://dbpedia.org/resource/BibTeX}. The named graph \url{:G} in th
           prv:operatedBy <http://tomayac.com/thomas_steiner.rdf#me> .
         ] ;
         prv:accessedService <http://spotlight.dbpedia.org/rest/annotate> ;
-        prv:accessedResource <http://spotlight.dbpedia.org/rest/annotate?text=Tom%20has%20the%20LaTeX%2C%20BibTeX%2C%20LaTex%2C%20LaTex%20blues...&confidence=0.4&support=20> ;
+        prv:accessedResource <http://spotlight.dbpedia.org/rest/annotate?text=Tom%20has%20the%20LaTeX%2C%20BibTeX%2C%20LaTeX%2C%20LaTeX%20blues...&confidence=0.4&support=20> ;
         prvTypes:exchangedHTTPMessage [
           a http:Request ;
           http:httpVersion "1.1" ;
@@ -250,8 +250,17 @@ meaning \url{http://dbpedia.org/resource/BibTeX}. The named graph \url{:G} in th
               http:fieldName "Connection" ;
               http:fieldValue "close" ;
             ]   
-            # MISSING THE BODY. NEED TO CHECK.         
           )
+          http:body [
+            cnt:ContentAsText [
+              cnt:characterEncoding "UTF-8" ;
+              cnt:chars """method=zemanta.suggest_markup
+              &api_key=4eqem8kyjzvkz8d2ken3xprb
+              &text=Tom%20has%20the%20LaTeX%2C%20BibTeX%2C%20LaTeX%2C%20LaTeX%20blues...
+              &format=json
+              &return_rdf_links=1""" ;
+            ] ;
+          ] ;
         ] ;
       ] ;
     ] ;
