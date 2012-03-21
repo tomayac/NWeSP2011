@@ -1,0 +1,382 @@
+% Journal of Information Assurance and Security]
+%
+
+\def\@xxvipt{24}
+\newcommand\Titlesize{\@setfontsize\Titlesize\@xxvipt{28}}
+
+\renewcommand\rmdefault{ptm}
+\renewcommand\sfdefault{phv}
+\renewcommand\ttdefault{pcr}
+
+\setlength{\columnsep}{5mm} %
+\setlength{\columnwidth}{86.8mm} %
+%\setlength{\evensidemargin}{17.8mm} %
+%\setlength{\oddsidemargin}{0in} %
+\setlength{\headheight}{0pt} %
+\setlength{\headsep}{0pt} %
+\setlength{\footnotesep}{9pt} %
+\setlength{\footskip}{0pt} %
+\setlength{\hoffset}{-0.27in} %% CHANGE THIS FOR YOUR PRINTER
+\setlength{\itemsep}{0pt} %
+\setlength{\parindent}{3.6mm} %
+\setlength{\parsep}{0pt} %
+\setlength{\parskip}{0pt} %
+\setlength{\partopsep}{0pt} %
+\setlength{\paperheight}{297.0mm} %
+\setlength{\paperwidth}{210mm} %
+%\setlength{\topmargin}{17.8mm} %% CHANGE THIS FOR YOUR PRINTER
+\setlength{\topsep}{0pt}
+%
+
+\setlength{\textwidth}{17.5cm}          % 17.0cm
+\setlength{\textheight}{10.1in}          % 23.36cm
+\setlength{\topmargin}{-0.7cm}         % + 1in = 2.0cm
+\setlength{\oddsidemargin}{-0.1cm}     % + 1in = 2.0cm
+\setlength{\evensidemargin}{-0.6cm}    % + 1in = 2.0cm
+
+\let\maketitle\relax
+\let\c@section\relax
+\let\c@subsection\relax
+\let\c@subsubsection\relax
+\let\c@subsubsubsection\relax
+\let\c@subsubsubsubsection\relax
+\let\c@subsubsubsubsubsection\relax
+\let\c@paragraph\relax
+\let\c@jiassubequation\relax
+\let\c@figure\relax
+\let\c@table\relax
+
+
+\gdef\@date{}
+%\def\author#1{%
+%     \refstepcounter{author}
+%     \ifnum \c@author=\@ne
+%        \def\@author{#1} \let\tmp@author=\@author
+%     \else
+%        \def\@author{\tmp@author \and #1}
+%        \let\tmp@author=\@author
+%     \fi}
+%\newcounter{authors}
+%\setcounter{authors}{1}
+%\def\and{\stepcounter{authors}%
+%    \
+
+
+
+ \if@titlepage
+ \newcommand\maketitle{\begin{titlepage}%
+ \let\footnotesize\small
+ \let\footnoterule\relax
+ \let \footnote \thanks
+ \null\vfil
+ \vskip 60\p@
+ \begin{center}%
+   {\Titlesize \@title \par}%
+   \vskip 3em%
+   {\normalsize
+    \lineskip .75em%
+     \begin{tabular}[t]{c}%
+       \@author
+     \end{tabular}\par}%
+     \vskip 1.5em%
+   {\normalsize \@date \par}%
+ \end{center}\par
+ \@thanks
+ \vfil\null
+ \end{titlepage}%
+ \setcounter{footnote}{0}%
+ \global\let\thanks\relax
+ \global\let\maketitle\relax
+ \global\let\@thanks\@empty
+ \global\let\@author\@empty
+ \global\let\@date\@empty
+ \global\let\@title\@empty
+ \global\let\title\relax
+ \global\let\author\relax
+ \global\let\date\relax
+ \global\let\and\relax
+} \else
+\newcommand\maketitle{\par
+ \begingroup
+   \renewcommand\thefootnote{\@fnsymbol\c@footnote}%
+   \def\@makefnmark{\rlap{\@textsuperscript{\normalfont\@thefnmark}}}%
+   \long\def\@makefntext##1{\parindent 1em\noindent
+           \hb@xt@1.8em{%
+               \hss\@textsuperscript{\normalfont\@thefnmark}}##1}%
+   \if@twocolumn
+     \ifnum \col@number=\@ne
+       \@maketitle
+     \else
+         \if@titlepage
+ \newcommand\maketitle{\begin{titlepage}%
+ \let\footnotesize\small
+ \let\footnoterule\relax
+ \let \footnote \thanks
+ \null\vfil
+ \vskip 60\p@
+ \begin{center}%
+   {\Titlesize \@title \par}%
+   \vskip 3em%
+   {\normalsize
+    \lineskip .75em%
+     \begin{tabular}[t]{c}%
+       \@author\\[1em]
+     \end{tabular}\par}%
+   {\normalsize \@date \par}%
+ \end{center}\par
+ \@thanks
+ \vfil\null
+ \end{titlepage}%
+ \setcounter{footnote}{0}%
+ \global\let\thanks\relax
+ \global\let\maketitle\relax
+ \global\let\@thanks\@empty
+ \global\let\@author\@empty
+ \global\let\@date\@empty
+ \global\let\@title\@empty
+ \global\let\title\relax
+ \global\let\author\relax
+ \global\let\date\relax
+ \global\let\and\relax
+} \else
+\newcommand\maketitle{\par
+ \begingroup
+   \renewcommand\thefootnote{\@fnsymbol\c@footnote}%
+   \def\@makefnmark{\rlap{\@textsuperscript{\normalfont\@thefnmark}}}%
+   \long\def\@makefntext##1{\parindent 1em\noindent
+           \hb@xt@1.8em{%
+               \hss\@textsuperscript{\normalfont\@thefnmark}}##1}%
+   \if@twocolumn
+     \ifnum \col@number=\@ne
+       \@maketitle
+     \else
+       \twocolumn[\@maketitle]%
+     \fi
+   \else
+     \newpage
+     \global\@topnum\z@   % Prevents figures from going at top of page.
+     \@maketitle
+   \fi
+   \thispagestyle{plain}\@thanks
+ \endgroup
+ \setcounter{footnote}{0}%
+ \global\let\thanks\relax
+ \global\let\maketitle\relax
+ \global\let\@maketitle\relax
+ \global\let\@thanks\@empty
+ \global\let\@author\@empty
+ \global\let\@date\@empty
+ \global\let\@title\@empty
+ \global\let\title\relax
+ \global\let\author\relax
+ \global\let\date\relax
+ \global\let\and\relax
+}
+\def\@maketitle{%
+ \newpage
+ \null
+ \vskip 2em%
+ \begin{center}%
+ \let \footnote \thanks
+   {\Titlesize \@title \par}%
+   \vskip 1.5em%
+   {\normalsize
+     \lineskip .5em%
+     \begin{tabular}[t]{c}%
+       \@author
+     \end{tabular}\par}%
+   \vskip 1em%
+   {\normalsize \@date}%
+ \end{center}%
+ \par
+ \vskip 1.5em}
+\fi
+     \fi
+   \else
+     \newpage
+     \global\@topnum\z@   % Prevents figures from going at top of page.
+     \@maketitle
+   \fi
+   \thispagestyle{plain}\@thanks
+ \endgroup
+ \setcounter{footnote}{0}%
+ \global\let\thanks\relax
+ \global\let\maketitle\relax
+ \global\let\@maketitle\relax
+ \global\let\@thanks\@empty
+ \global\let\@author\@empty
+ \global\let\@date\@empty
+ \global\let\@title\@empty
+ \global\let\title\relax
+ \global\let\author\relax
+ \global\let\date\relax
+ \global\let\and\relax
+}
+\def\@maketitle{%
+\mbox{} \vskip -2.9em
+{\noindent International Journal of Computer Information Systems and Industrial Management Applications.\\
+\noindent ISSN 2150-7988 Volume 3 (2011) pp. XXX--XXX\\
+\noindent  $\copyright$ MIR Labs, \noindent
+www.mirlabs.net/ijcisim/index.html} \vspace{1mm} \noindent\hrule
+ \null
+ \vskip 2em%
+ \begin{center}%
+ \let \footnote \thanks
+   {\Titlesize \@title \par}%
+   \vskip 1.5em%
+   {\normalsize
+     \lineskip .5em%
+     \begin{tabular}[t]{c}%
+       \@author
+     \end{tabular}\par}%
+   \vskip 1em%
+   {\normalsize \@date}%
+ \end{center}%
+ \par
+ \vskip 1.5em}
+\fi
+
+\let\tmptitle=\maketitle
+\def\maketitle{\twocolumn[\begin{@twocolumnfalse}
+\tmptitle\end{@twocolumnfalse}]}
+
+
+
+\renewenvironment{abstract}{\small{\indent{\textit{\textbf{Abstract}}:\kern.7em}}\bf}{}
+
+\newcommand\keywords[1]{\textit{\textbf{\small{Keywords}}}:\kern.7em {\small {#1}}}
+
+\def\labelitemi{$\scriptstyle\bullet$}
+
+\newcounter{section}
+\newcounter{subsection}[section]
+\newcounter{subsubsection}[subsection]
+\newcounter{subsubsubsection}[subsubsection]
+\newcounter{subsubsubsubsection}[subsubsubsection]
+\newcounter{subsubsubsubsubsection}[subsubsubsubsection]
+\newcounter{paragraph}[subsubsection]
+\newcounter{jiassubequation}[equation]
+
+
+\def\thesection{\Roman{section}}
+\def\thesubsection{\thesection-\Alph{subsection}}
+\def\thesubsubsection{\thesubsection.\arabic{subsubsection}}
+\def\theparagraph{\thesubsubsection.\alph{paragraph}}
+\def\theequation{\arabic{equation}}
+
+\def\@jiastablestring{table}
+
+%\long\def\@makecaption#1#2{%
+%% test if is a for a figure or table
+%\ifx\@captype\@jiastablestring%
+%% if a table, do table caption
+%\begin{center}{\footnotesize #1}\\{\footnotesize\scshape #2}\end{center}%
+%%\@IEEEblecaptionsepspace% V1.6 was a hard coded 8pt
+%% if not a table, format it as a figure
+%\else
+%%\@IEEEfigurecaptionsepspace% V1.6 was a hard coded 5pt
+%% 3/2001 use footnotesize, not small; use two nonbreaking spaces, not one
+%\setbox\@tempboxa\hbox{\footnotesize #1.~~ #2}%
+%\ifdim \wd\@tempboxa >\hsize%
+%% if caption is longer than a line, let it wrap around
+%\setbox\@tempboxa\hbox{\footnotesize #1.~~ }%
+%\parbox[t]{\hsize}{\footnotesize \noindent\unhbox\@tempboxa#2}%
+%% if caption is shorter than a line,
+%% allow user to control short figure caption justification (left or center)
+%\else%
+%\ifcenterfigcaptions \hbox to\hsize{\footnotesize\hfil\box\@tempboxa\hfil}%
+%\else \hbox to\hsize{\footnotesize\box\@tempboxa\hfil}%
+%\fi\fi\fi}
+
+
+\newcounter{figure}
+
+\def\thefigure{\@arabic\c@figure}
+\def\fps@figure{tbp}
+\def\ftype@figure{1}
+\def\ext@figure{lof}
+\def\fnum@figure{\textbf{Figure.~\thefigure}}
+\def\figure{\@float{figure}}
+\let\endfigure\end@float
+\@namedef{figure*}{\@dblfloat{figure}}
+\@namedef{endfigure*}{\end@dblfloat}
+
+\newcounter{table}
+
+\def\thetable{\@arabic\c@table}
+\def\fps@table{tbp}
+\def\ftype@table{2}
+\def\ext@table{lot}
+\def\fnum@table{\textit{Table~\thetable}}
+\def\table{\def\@floatboxreset{\reset@font\footnotesize\@setminipage}\@float{table}}
+\let\endtable\end@float
+\@namedef{table*}{\def\@floatboxreset{\reset@font\footnotesize\@setminipage}\@dblfloat{table}}
+\@namedef{endtable*}{\end@dblfloat}
+
+\renewcommand\refname{References}
+
+
+\renewcommand\section{\@startsection {section}{1}{\z@}%
+                                    {-3.0ex \@plus -1ex \@minus -.2ex}%
+                                    {2.0ex \@plus.2ex}%
+                                    {\normalfont\normalsize\bf}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+                                    {-2.90ex\@plus -1ex \@minus -.2ex}%
+                                    {1.4ex \@plus .2ex}%
+                                    {\normalfont\normalsize\itshape}}
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
+                                    {-2.90ex\@plus -1ex \@minus -.2ex}%
+                                    {1.4ex \@plus .2ex}%
+                                    {\normalfont\normalsize\itshape}}
+\newcommand\subsubsubsection{\@startsection {section}{4}{\z@}%
+                                  {-3.0ex \@plus -1ex \@minus -.2ex}%
+                                  {2.0ex \@plus.2ex}%
+                                  {\normalfont\normalsize\itshape}}
+\newcommand\subsubsubsubsection{\@startsection{subsection}{5}{\z@}%
+                                    {-2.90ex\@plus -1ex \@minus -.2ex}%
+                                    {1.4ex \@plus .2ex}%
+                                    {\normalfont\normalsize\upshape}}
+\newcommand\subsubsubsubsubsection{\@startsection{subsubsection}{6}{\z@}%
+                                    {-2.90ex\@plus -1ex \@minus -.2ex}%
+                                    {1.4ex \@plus .2ex}%
+                                    {\normalfont\normalsize\itshape}}
+
+\setcounter{tocdepth}{6}
+
+\RequirePackage{titlesec}
+
+
+
+\titleformat\section{\large\bfseries}{\thesection.}{.5em}{}
+\titleformat\subsection{\normalsize\itshape}{\Alph{subsection}.}{.5em}{}
+\titleformat\subsubsection{\normalsize\itshape}{\arabic{subsubsection})}{.5em}{}
+\titleformat\subsubsubsection{\normalsize\itshape}{(\alph{subsubsubsection})}{.5em}{}
+\titleformat\subsubsubsubsection{\normalsize\upshape}{(\arabic{subsubsubsubsection})}{.5em}{}
+\titleformat\subsubsubsubsubsection{\normalsize\itshape}{(\alph{subsubsubsection})}{.5em}{}
+
+
+\renewcommand{\footnoterule}{\kern-2\p@
+ \hrule \@width 2in \kern 5\p@}
+
+
+\newenvironment{jlist}
+{\begin{list}{$\bullet$}
+ {\setlength{\topsep}{1.5pt}
+ \setlength{\itemsep}{1.5pt}
+ \setlength{\parsep}{1.5pt}}}
+ {\end{list}}
+
+%\def\@jiaslabel#1{[#1]}
+
+%\def\thebibliography#1{\section*{References}
+ %\list{\@jiaslabel{\@arabic\c@enumiv}}
+ %{\settowidth\labelwidth{\@jiaslabel{#1}}%
+ %\usecounter{enumiv}
+ %\let\p@enumiv\@empty
+ %\renewcommand\theenumiv{\@arabic\c@enumiv}}%
+ %\itemsep 0pt\relax%
+ %}
+
+\endinput
+%
+% End of JIAS.sty
