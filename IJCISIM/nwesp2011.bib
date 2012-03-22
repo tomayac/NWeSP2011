@@ -1,6 +1,6 @@
 @article{Groth:2009:MPD:1462159.1462162,
  author = {Groth, Paul and Miles, Simon and Moreau, Luc},
- title = {A model of process documentation to determine provenance in mash-ups},
+ title = {{A Model of Process Documentation to Determine Provenance in Mash-ups}},
  journal = {ACM Trans. Internet Technol.},
  volume = {9},
  issue = {1},
@@ -37,8 +37,9 @@
 
 @Misc{TimBL:LinkedData,
   author = {Tim Berners-Lee},
-  title =        {{Linked Data}},
-  year =         {Juli 27, 2006},  
+  title =        {{Linked Data, Design Issue}},
+  year =         2006,
+  month = Jul,  
   note =         {\url{http://www.w3.org/DesignIssues/LinkedData.html}}
 }
 
@@ -52,22 +53,54 @@
 @Misc{Facebook,
   author =      {Facebook},
   title =       {{Press Room -- Statistics}},
-  year =        {May 16, 2011},
+  year =        2011,
+  month = May,
   note =        {\url{https://www.facebook.com/press/info.php?statistics}}
 }
 
 @Misc{Twitter,
   author =      {Twitter},
   title =       {{Streaming API}},
-  year =        {May 16, 2011},
+  year =        2012,
+  month = Mar,
   note =        {\url{http://dev.twitter.com/pages/streaming_api_methods}}
 }
+
+@Misc{TweetStats,
+  author = {Twitter},
+  title = {Twitter turns six},
+  year = 2012,
+  month = Mar,
+  note = {\url{http://blog.twitter.com/2012/03/twitter-turns-six.html}}
+}
+
+@InProceedings {Fernandez:IdentityRank,
+  author    = {Norberto Fern{\'a}ndez Garc\'{\i}a and
+               Jos{\'e} M. Bl{\'a}zquez del Toro and
+               Luis S{\'a}nchez and
+               Ansgar Bernardi},
+  title     = {{IdentityRank: Named Entity Disambiguation in the Context
+               of the NEWS Project}},
+  booktitle = {ESWC},
+  year      = {2007},
+  pages     = {640--654}
+
 
 @Misc{CommonTag:Spec,
   author =      {{Common Tag}},
   title =       {{Common Tag Specification}},
-  year =        {January 11, 2009},
+  year =        2009,
+  month = Jan,
   note =        {\url{http://commontag.org/Specification}}
+}
+
+@InProceedings{Nguyen:NamedEntity,
+    author = {Nguyen, Hien and Cao, Tru},
+    journal = {The Semantic Web},
+    pages = {420--433},
+   booktitle = {The Semantic Web},
+    title = {{Named Entity Disambiguation: A Hybrid Statistical and Rule-Based Incremental Approach}},
+    year = {2008}
 }
 
 @Misc{Hartig:Provenance,
@@ -77,8 +110,46 @@
   note =         {\url{http://purl.org/net/provenance/ns}}
 }
 
+@inproceedings {Glaser:SameAs,
+       booktitle = {Linked Data on the Web (LDOW2009)},
+           month = {April},
+           title = {{Managing Co-reference on the Semantic Web}},
+          author = {Hugh Glaser and Afraz Jaffri and Ian Millard},
+            year = {2009},
+}
+
+@inproceedings {Billerbeck:QueryLogs,
+   author = {Billerbeck, Bodo and Demartini, Gianluca and Firan, Claudiu and Iofciu, Tereza and Krestel, Ralf},
+   title = {{Ranking Entities Using Web Search Query Logs}},
+   booktitle = {Research and Advanced Technology for Digital Libraries},
+   series = {Lecture Notes in Computer Science},
+   pages = {273--281},
+   volume = {6273},
+   year = {2010}
+}
+
+@InProceedings{Brin:PageRank,
+ author = {Brin, Sergey and Page, Lawrence},
+ title = {{The anatomy of a large-scale hypertextual Web search engine}},
+ booktitle = {Proceedings of the 7$^th$ International Conference on World Wide Web},
+ series = {WWW},
+ year = 1998,
+ location = {Brisbane, Australia},
+ pages = {107--117},
+}
+
+@article{Cucerzan:Wikipedia,
+    author = {Cucerzan, S.},
+    journal = {EMNLP 2007: Empirical Methods in Natural Language Processing, June 28-30, 2007, Prague, Czech Republic},
+    title = {{Large-Scale Named Entity Disambiguation Based on Wikipedia Data}},
+    year = {2007}
+}
+
 @Misc{Zemanta,
  author = {Zemanta},
+ title = {{Zemanta API}},
+ month = Mar,
+ year = 2012,
  note = {\url{http://developer.zemanta.com/docs/}},
 }
 
@@ -92,12 +163,16 @@ abstract = {Interlinking text documents with Linked Open Data enables the Web of
 
 @misc{AlchemyAPI,
  author = {{AlchemyAPI}},
- note = {\url{http://www.alchemyapi.com/api/entity/}},
+ title = {{Named Entity Extraction}},
+ year = 2012,
+ note = {\url{http://www.alchemyapi.com/api/entity/}}
 }
 
 @misc{OpenCalais,
  author = {{OpenCalais}},
- note = {\url{http://www.opencalais.com/documentation/}},
+ title = {{API Documentation}},
+ year = 2012,
+ note = {\url{http://www.opencalais.com/documentation/opencalais-documentation}},
 }
 
 @misc{RDF,
@@ -112,7 +187,7 @@ abstract = {Interlinking text documents with Linked Open Data enables the Web of
 
 @InProceedings{Halpin:SameAs,
   author =      {Harry Halpin and Patrick Hayes},
-  title =       {{When owl:sameAs isn't the same: An analysis of Identity Links on the Semantic Web}},
+  title =       {{When owl:sameAs isn't the same: An Analysis of Identity Links on the Semantic Web}},
   booktitle =   {3$^{rd}$ Workshop on Linked Data on the Web (LDOW'10)},
   year =        2010,
   address =     {Raleih, NC, USA}
@@ -134,16 +209,30 @@ abstract = {Interlinking text documents with Linked Open Data enables the Web of
   address =   {Saarbr\"{u}cken, Germany}
 }
 
-@Misc{Princeton:WordNet,
-  author =       {Princeton},
-  title =        {{WordNet}},
-  note =         {\url{http://wordnet.princeton.edu/}}
+@book{Princeton:WordNet,
+  abstract = {WordNet, an electronic lexical database, is considered to be the most important resource available to researchers in computational linguistics, text analysis, and many related areas. Its design is inspired by current psycholinguistic and computational theories of human lexical memory. English nouns, verbs, adjectives, and adverbs are organized into synonym sets, each representing one underlying lexicalized concept. Different relations link the synonym sets.
+
+The purpose of this volume is twofold. First, it discusses the design of WordNet and the theoretical motivations behind it. Second, it provides a survey of representative applications, including word sense identification, information retrieval, selectional preferences of verbs, and lexical chains.},
+  added-at = {2008-10-29T11:57:52.000+0100},
+  address = {Cambridge, MA; London},
+  biburl = {http://www.bibsonomy.org/bibtex/22e282d8bb3aa81b255b179c0772b3bf7/robo},
+  editor = {Fellbaum, Christiane},
+  interhash = {42daa1681607dd1d3f3234c605d84ec3},
+  intrahash = {2e282d8bb3aa81b255b179c0772b3bf7},
+  isbn = {978-0-262-06197-1},
+  keywords = {database electronical lexical wismasys0809 wordnet},
+  month = May,
+  publisher = {The MIT Press},
+  timestamp = {2008-10-29T11:57:52.000+0100},
+  title = {WordNet An Electronic Lexical Database },
+  url = {http://mitpress.mit.edu/catalog/item/default.asp?ttype=2&tid=8106},
+  year = 1998
 }
 
 @inproceedings{Choudhury:YouTube,
   author =      {Smitashree Choudhury and John Breslin and Alexandre Passant},
   title =       {{Enrichment and Ranking of the YouTube Tag Space and Integration with the Linked Data Cloud}},
-  booktitle =   {8$^{th}$ Int. Semantic Web Conference (ISWC'09)},
+  booktitle =   {8$^{th}$ Int. Semantic Web Conference},
   year =        {2009},
   pages =       {747--762},
   address =     {Chantilly, VA, USA}
@@ -152,7 +241,8 @@ abstract = {Interlinking text documents with Linked Open Data enables the Web of
 @Misc{Bizer:TriG,
   author =       {Chris Bizer and Richard Cyganiak},
   title =        {{The TriG Syntax}},
-  year =         {July 30, 2007},
+  year =         2007,
+  month = Jul,
   note =         {\url{http://www4.wiwiss.fu-berlin.de/bizer/TriG/}}
 }
 
@@ -207,7 +297,7 @@ abstract = {Interlinking text documents with Linked Open Data enables the Web of
 
 @article{Curbera:2003:NSW:944217.944234,
  author = {Curbera, Francisco and Khalaf, Rania and Mukhi, Nirmal and Tai, Stefan and Weerawarana, Sanjiva},
- title = {The next step in Web services},
+ title = {{The Next Step in Web Services}},
  journal = {Commun. ACM},
  volume = {46},
  issue = {10},
@@ -231,7 +321,7 @@ abstract = {Interlinking text documents with Linked Open Data enables the Web of
   intrahash = {68f3c5be8ad1f4c4749d2deea203ead5},
   pages = {613--622},
   publisher = {ACM},
-  title = {Named graphs, provenance and trust},
+  title = {{Named Graphs, Provenance and Trust}},
   year = 2005,
   timestamp = {2009-11-15T15:34:11.000+0100},
   keywords = {imported},
@@ -240,6 +330,25 @@ abstract = {Interlinking text documents with Linked Open Data enables the Web of
   isbn = {1-59593-046-9},
   biburl = {http://www.bibsonomy.org/bibtex/268f3c5be8ad1f4c4749d2deea203ead5/henkellermann},
   doi = {http://doi.acm.org/10.1145/1060745.1060835}
+}
+
+@ARTICLE{Yu,
+   AUTHOR  = {Hong Qing Yu and Stefan Dietze and Carlos Pedrinaci and Dong Liu},
+   TITLE   = {{A Linked Data compliant Framework for Dynamic and Web-scale Consumption of Web 
+Services}},  
+   YEAR    = {2011},
+   JOURNAL = {International Journal of Computer Information Systems and Industrial Management Applications},
+   VOLUME  = {3},
+   PAGES   = {796--803}
+}
+
+@ARTICLE{Sangeetha,
+   AUTHOR  = {S. Sangeetha and R.S.Thakur and Michael Arock},
+   TITLE   = {{Domain Independent Event Extraction System Using Text Meaning Representation Adopted for Semantic Web}},  
+   YEAR    = {2010},
+   JOURNAL = {International Journal of Computer Information Systems and Industrial Management Applications},
+   VOLUME  = {2},
+   PAGES   = {252--261}
 }
 
 @Misc{CNT:RDF,
