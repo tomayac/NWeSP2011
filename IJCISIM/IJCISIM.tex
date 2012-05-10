@@ -75,10 +75,10 @@ According to official statistics~\cite{Facebook}, the social networking site Fac
 Latest statistics from Twitter~\cite{TweetStats} suggest that currently more than 140 million active users share 340 million tweets a day. 
 
 \subsection{Direct Access to Micropost Raw Data}
-Similar to the microblogging site Twitter with its full text Twitter search, Facebook as well offers both a search feature on the website, and a JSON-based search API over status updates from all global Facebook members\footnote{\url{http://bit.ly/ogpsearch}}. In order to perform data mining, a statistically significant amount of microposts is necessary (this is also known as access to the ``fire hose''). However, while Twitter grants selected parties access to its Streaming API~\cite{Twitter} for research purposes, for Facebook there is no such documented option.
+Similar to the microblogging site Twitter with its full text Twitter search, Facebook as well offers both a search feature on the website, and a JSON-based search API over status updates from all global Facebook members\footnote{\textit{http://bit.ly/ogpsearch}}. In order to perform data mining, a statistically significant amount of microposts is necessary (this is also known as access to the ``fire hose''). However, while Twitter grants selected parties access to its Streaming API~\cite{Twitter} for research purposes, for Facebook there is no such documented option.
 
 \subsection{Browser Extensions to Access Microposts Indirectly}
-To address this shortage, we have developed browser extensions called Facebook Swarm NLP\footnote{\url{http://bit.ly/facebookswarmnlp}} and Twitter Swarm NLP\footnote{\url{http://bit.ly/twitterswarmnlp}} for a popular Web browser. These extensions inject JavaScript code into the Facebook.com or Twitter.com homepages to perform data analysis on the encountered set of microposts by sending extracted data to a central data processing unit.
+To address this shortage, we have developed browser extensions called Facebook Swarm NLP\footnote{\textit{http://bit.ly/facebookswarmnlp}} and Twitter Swarm NLP\footnote{\textit{http://bit.ly/twitterswarmnlp}} for a popular Web browser. These extensions inject JavaScript code into the Facebook.com or Twitter.com homepages to perform data analysis on the encountered set of microposts by sending extracted data to a central data processing unit.
 Users need to be logged in to Facebook or Twitter for the extensions to work, and must have given their \emph{explicit agreement} during the extension installation process on part of their data being shared in an anonymized way.
 
 \subsection{Data Analysis Flow}
@@ -111,6 +111,9 @@ datasets. Choudhury \emph{et al.} disambiguate the tags based on WordNet~\cite{P
 there is only one matching synset in WordNet, the corresponding WordNet URI in DBpedia is selected. If there are more
 than one matching synsets, the tags and their context tags similarity is computed and thereby tried to decide on an
 already existing tag URI).
+Lopez \emph{et al.} describe in~\cite{Lopez} an automatic titling method based on the four stages corpus 
+acquisition, candidate sentences determination, noun 
+phrase extraction, and selection of a particular noun phrase to play the role of the text title. Their method is in so far relevant to our work as automatically generated text titles can simplify the micropost annotation step for longer microposts, where annotated titles are used instead of the actual micropost.
 
 \subsection{Entity Disambiguation With Semantic Coherence And News Trends}
 In~\cite{Fernandez:IdentityRank}, Fern\'{a}ndez \emph{et al.} examine entity disambiguation in the context of news annotation.
@@ -173,7 +176,7 @@ When we speak of adding structure to unstructured textual data we mean the proce
 
 \subsection{Natural Language Processing Services}\label{sec:nlp-services}
 Natural Language Processing is defined as ``the branch of information science that deals with natural language information''. From the many NLP toolkits, in the following we list some NLP Web services that link to datasets in the Linked Open Data
-cloud\footnote{\url{http://lod-cloud.net/}} in order to disambiguate named entities.
+cloud\footnote{\textit{http://lod-cloud.net/}} in order to disambiguate named entities.
 
 \subsection{OpenCalais}\label{sec:opencalais}
 OpenCalais~\cite{OpenCalais} is the only Web service we use that provides details on occurrences in concrete sections of the submitted coherent text. This allows for exact matching of the location in the text where a certain entity is believed to appear. This is especially useful as OpenCalais is also oftentimes capable of recognizing references within the text to prior discovered entities (see the emphasized words as an example: ``\emph{Obama} thanked people for their work in ensuring the victory. \emph{He} also thanked his family […]''). An OpenCalais response consists of three parts:
@@ -184,10 +187,10 @@ OpenCalais~\cite{OpenCalais} is the only Web service we use that provides detail
 \item a list of social tags that a human being could assign.
 \end{itemize}
 
-The problem with the extracted entities is that they are not always disambiguated. An example is the URI \url{http://d.opencalais.com/pershash-1/cf42394f-4ae9-3e8e-958a-088149c86565.html} that represents the concept of type ``person'' of president Barack Hussein Obama. However, president Barack Obama is also represented by the URI \url{http://d.opencalais.com/pershash-1/cfcf1aa2-de05-3939-a7d5-10c9c7b3e87b.html} that was returned in one and the same response to one of our test requests. A second issue is that only a tiny fraction of the returned entities link to other Linked Open Data (LOD) sources in the LOD cloud. In order to find links to the linking hub DBpedia, each returned entity has to be retrieved at the expense of an HTTP request, and the returned RDF has to be checked for said links.
+The problem with the extracted entities is that they are not always disambiguated. An example is the URI \textit{http://d.opencalais.com/pershash-1/cf42394f-4ae9-3e8e-958a-088149c86565.html} that represents the concept of type ``person'' of president Barack Hussein Obama. However, president Barack Obama is also represented by the URI \textit{http://d.opencalais.com/pershash-1/cfcf1aa2-de05-3939-a7d5-10c9c7b3e87b.html} that was returned in one and the same response to one of our test requests. A second issue is that only a tiny fraction of the returned entities link to other Linked Open Data (LOD) sources in the LOD cloud. In order to find links to the linking hub DBpedia, each returned entity has to be retrieved at the expense of an HTTP request, and the returned RDF has to be checked for said links.
 
 \subsection{AlchemyAPI}
-AlchemyAPI~\cite{AlchemyAPI} differentiates between entities and concepts, however, in practice the difference being very subtle, we treat entities and concepts the same. Overall the AlchemyAPI results are very accurate and of mostly excellent Linked Data quality as there are links to well-known members of the LOD cloud, among others to DBpedia, OpenCyc, and Freebase. AlchemyAPI also provides links to other data sources, however, sometimes the returned URIs resolve to 404 ``Not found'' errors. One example that we came across during our tests was the URI \url{http://umbel.org/umbel/ne/wikipedia/George_W._Bush.rdf}, which should represent the concept of the person George W. Bush. AlchemyAPI also oftentimes returns thematically very related, but for a concrete text not directly relevant entities.
+AlchemyAPI~\cite{AlchemyAPI} differentiates between entities and concepts, however, in practice the difference being very subtle, we treat entities and concepts the same. Overall the AlchemyAPI results are very accurate and of mostly excellent Linked Data quality as there are links to well-known members of the LOD cloud, among others to DBpedia, OpenCyc, and Freebase. AlchemyAPI also provides links to other data sources, however, sometimes the returned URIs resolve to 404 ``Not found'' errors. One example that we came across during our tests was the URI \textit{http://umbel.org/umbel/ne/wikipedia/George\_W.\_Bush.rdf}, which should represent the concept of the person George W. Bush. AlchemyAPI also oftentimes returns thematically very related, but for a concrete text not directly relevant entities.
 
 \subsection{Zemanta}
 Zemanta~\cite{Zemanta} provides high quality entities that are linked to well-known datasets of the LOD cloud, \emph{e.g.}, DBpedia, Semantic CrunchBase, or Freebase. Zemanta convinces through very accurate entity disambiguation and thus high precision, however, at the cost of recall. Where other services try to return at least something of lower precision, the design objectives of Zemanta instead seem to prefer not to return anything if the underlying algorithms are unsure of the quality of the results. 
@@ -204,7 +207,7 @@ obtaining entity candidates for a text such as a micropost. In addition to that,
 In order to tackle the problem of different namespaces in results that we have outlined before, a straightforward idea is to use a Web service such as
 sameAs~\cite{Glaser:SameAs} to easily find mappings from one namespace into another. In practice,
 however, while many data sources in the Linked Data world are marked as being equal to each other (\emph{e.g.},
-\url{http://dbpedia.org/resource/Barack_Obama} \texttt{owl:sameAs} \url{http://rdf.freebase.com/rdf/en.barack_obama}),
+\textit{http://dbpedia.org/resource/Barack\_Obama} \texttt{owl:sameAs} \textit{http://rdf.freebase.com/rdf/en.barack\_obama}),
 the quality of such equality links is not always excellent. As Halpin \emph{et al.} show in~\cite{Halpin:SameAs}, the problem
 with \texttt{owl:sameAs} is that people tend to use it very differently. The authors 
 differentiate four separate usage styles, each with its particular implications. Inference is thus problematic, if not
@@ -260,7 +263,7 @@ weights. The particular ranking formula of each entity mapping service is not ne
 
 \paragraph{Direct Source-weighted Winner Entity Determination}
 Another option is to always select the trustworthiest result by the inbound links ranking criteria as outlined in Section~\ref{sec:direct}, independent from the majority constellation. Practically speaking this means that
-if, \emph{e.g.}, DBpedia is considered trustworthier as, \emph{e.g.},  GeoNames\footnote{\url{http://www.geonames.org/}}, we
+if, \emph{e.g.}, DBpedia is considered trustworthier as, \emph{e.g.},  GeoNames\footnote{\textit{http://www.geonames.org/}}, we
 trust the DBpedia result over any other result from GeoNames.
 
 \paragraph{Direct Majority-based Source-weighted Winner Entity Determination}
@@ -316,15 +319,15 @@ entity with two URIs while the original result contained seven entities among wh
 ]
 \end{lstlisting}
 
-These results come from a request to our wrapper API via \texttt{GET} \url{/entity-extraction/combined/Google%20Translate},
-and the particular services' results can be obtained via \texttt{GET} \url{/entity-extraction/{service_name}/Google%20Translate%20is%20a%20service%20by%20Google}.
+These results come from a request to our wrapper API via \texttt{GET} \textit{/entity-extraction/combined/Google\%20Translate},
+and the particular services' results can be obtained via \texttt{GET} \textit{/entity-extraction/\{service\_name\}/Google\%20Translate\%20is\%20a\%20service\%20by\%20Google}.
 While AlchemyAPI and Zemanta return results from DBpedia and other interlinked LOD cloud resources, OpenCalais returns
 only results in its own namespace
-(\emph{e.g.}, \nofootnote{\url{http://d.opencalais.com/er/company/ralg-tr1r/ce181d44-1915-3387-83da-0dc4ec01c6da.rdf}} for the
+(\emph{e.g.}, \nofootnote{\textit{http://d.opencalais.com/er/company/ralg-tr1r/ce181d44-1915-3387-83da-0dc4ec01c6da.rdf}} for the
 company Google). In this particular case, retrieving the resource RDF representation and parsing for
 \texttt{owl:sameAs} return links to DBpedia. However, in the general case, we found OpenCalais URIs sometimes pointing
 to non-existent resources or to not very rich resources such
-as\nofootnote{\url{http://d.opencalais.com/pershash-1/cfcf1aa2-de05-3939-a7d5-10c9c7b3e87b.html}}, a URI identifying
+as\nofootnote{\textit{http://d.opencalais.com/pershash-1/cfcf1aa2-de05-3939-a7d5-10c9c7b3e87b.html}}, a URI identifying
 the current US President Barack Obama where the only information is that Barack Obama is of type person. In order to
 consolidate extracted entities, we use the following approach: we have a look at each of the extracted entities from
 service one and compare each entity's URIs with each URIs from each extracted entity from service two, illustrated below.
@@ -414,16 +417,16 @@ Finally, we consider the merged results from both Zemanta and AlchemyAPI. Note t
 \end{lstlisting}
 
 In this example, the entity names mismatch (``google inc.'' vs. ``google''). However, going down the list of URIs for
-the entity, one can note a match via\nofootnote{\url{http://dbpedia.org/resource/Google}}. Additionally, there can also
-be seen two would-be matches: \nofootnote{\url{http://cb.semsol.org/company/google.rdf}}
-vs.\nofootnote{\url{http://cb.semsol.org/company/google#self}} and
-\nofootnote{\url{http://rdf.freebase.com/ns/en/google}} vs.
-\nofootnote{\url{http://rdf.freebase.com/ns/guid.9202a8c04000641f800000000042acea}}. However, the inconsistent use of
+the entity, one can note a match via\nofootnote{\textit{http://dbpedia.org/resource/Google}}. Additionally, there can also
+be seen two would-be matches: \nofootnote{\textit{http://cb.semsol.org/company/google.rdf}}
+vs.\nofootnote{\textit{http://cb.semsol.org/company/google\#self}} and
+\nofootnote{\textit{http://rdf.freebase.com/ns/en/google}} vs.
+\nofootnote{\textit{http://rdf.freebase.com/ns/guid.9202a8c04000641f800000000042acea}}. However, the inconsistent use of
 URIs when there are more than one URIs available for the same entity hinders the match from being made. An additional
 retrieval of the resources would be necessary to detect that in the latter case
-\nofootnote{\url{http://rdf.freebase.com/ns/guid.9202a8c04000641f800000000042acea}} redirects to
-\nofootnote{\url{http://rdf.freebase.com/ns/en/google}}, whereas the first example seems to be broken
-(\nofootnote{\url{http://cb.semsol.org/company/google#self}} returns the status code 404). The good thing, however, is
+\nofootnote{\textit{http://rdf.freebase.com/ns/guid.9202a8c04000641f800000000042acea}} redirects to
+\nofootnote{\textit{http://rdf.freebase.com/ns/en/google}}, whereas the first example seems to be broken
+(\nofootnote{\textit{http://cb.semsol.org/company/google\#self}} returns the status code 404). The good thing, however, is
 that as soon as \emph{one} match has been detected, one can consolidate the entities from both services.
 
 Given the mismatching two entity names (``google inc.'' vs. ``google''), the consolidated name is then an array of all
@@ -534,7 +537,7 @@ It is to be noted that statements such as in the listing above refer to the trip
 \label{sec:conclusion}
 In this paper, we have shown how the Provenance
 Vocabulary can be used to keep track of the original third party Web service calls that led to the consolidated
-results. These references to the original calls are to be understood as the identificator of Web resources (\emph{i.e.}, the
+results. These references to the original calls are to be understood as the identification of Web resources (\emph{i.e.}, the
 results of a request). We have shown how a concrete multi-source Web service can automatically maintain provenance
 metadata, both for entirely machine-generated content, but also for partly (or completely) human-generated content. We
 believe that being able to track back the origin of a triple is of crucial importance, especially given the network
