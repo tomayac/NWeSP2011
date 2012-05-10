@@ -237,7 +237,8 @@ like sameAs.org, described by Glaser \emph{et al.} in~\cite{Glaser:SameAs}.
 
 \begin{figure*}
  \centering
- \includegraphics[width=0.5\textwidth]{diagram.png}
+ \vspace{2em}
+ \includegraphics[width=0.6\textwidth]{diagram.png}
  \caption{Exemplary result set configuration using four entity mapping services with only the particular top result displayed for each entity mapping service. The figure shows the direct results of the particular entity mapping service, and \texttt{owl:sameAs} results for the direct results.}
  \label{fig:diagram}
 \end{figure*}
@@ -299,6 +300,7 @@ system and providing mappings for all of them would be a relatively time-consumi
 provide links into the LOD cloud, the desired typing information can be pulled from there in a true Linked Data manner. The least common
 multiple of the results for the query ``Google Translate'' is depicted below. For the sake of clarity, we just show one
 entity with two URIs while the original result contained seven entities among which six were relevant and one was only loosely related.
+\newpage
 \begin{lstlisting}
 [
   {
@@ -318,9 +320,10 @@ entity with two URIs while the original result contained seven entities among wh
   }
 ]
 \end{lstlisting}
+\vspace{2em}
 
 These results come from a request to our wrapper API via \texttt{GET} \textit{/entity-extraction/combined/Google\%20Translate},
-and the particular services' results can be obtained via \texttt{GET} \textit{/entity-extraction/\{service\_name\}/Google\%20Translate\%20is\%20a\%20service\%20by\%20Google}.
+and the particular services' results can be obtained via \texttt{GET} \textit{/entity-extraction/\{service\_name\}/Google\%20Translate\%20is\%20a\\\%20service\%20by\%20Google}.
 While AlchemyAPI and Zemanta return results from DBpedia and other interlinked LOD cloud resources, OpenCalais returns
 only results in its own namespace
 (\emph{e.g.}, \nofootnote{\textit{http://d.opencalais.com/er/company/ralg-tr1r/ce181d44-1915-3387-83da-0dc4ec01c6da.rdf}} for the
@@ -333,6 +336,7 @@ consolidate extracted entities, we use the following approach: we have a look at
 service one and compare each entity's URIs with each URIs from each extracted entity from service two, illustrated below.
 
 First, we consider the isolated results for the text fragment from AlchemyAPI only:
+\vspace{2em}
 \begin{lstlisting}
 {
   "name": "Google",
@@ -354,8 +358,9 @@ First, we consider the isolated results for the text fragment from AlchemyAPI on
   "source": "alchemyapi"
 }
 \end{lstlisting}
-
+\vspace{2em}
 Second, we consider the isolated results for the same text fragment from Zemanta only:
+\newpage
 \begin{lstlisting}
 {
   "name": "Google Inc.",
@@ -377,8 +382,9 @@ Second, we consider the isolated results for the same text fragment from Zemanta
   "source": "zemanta"
 }
 \end{lstlisting}
-
+\vspace{2em}
 Finally, we consider the merged results from both Zemanta and AlchemyAPI. Note that these results are not exposed externally, they are used internally by the wrapper Web service:
+\vspace{2em}
 \begin{lstlisting}
 {
   "name": [
@@ -415,16 +421,16 @@ Finally, we consider the merged results from both Zemanta and AlchemyAPI. Note t
   "source": "alchemyapi,zemanta"
 }
 \end{lstlisting}
-
+\vspace{2em}
 In this example, the entity names mismatch (``google inc.'' vs. ``google''). However, going down the list of URIs for
 the entity, one can note a match via\nofootnote{\textit{http://dbpedia.org/resource/Google}}. Additionally, there can also
 be seen two would-be matches: \nofootnote{\textit{http://cb.semsol.org/company/google.rdf}}
 vs.\nofootnote{\textit{http://cb.semsol.org/company/google\#self}} and
 \nofootnote{\textit{http://rdf.freebase.com/ns/en/google}} vs.
-\nofootnote{\textit{http://rdf.freebase.com/ns/guid.9202a8c04000641f800000000042acea}}. However, the inconsistent use of
+\nofootnote{\textit{http://rdf.freebase.com/ns/guid.9202a8c04000641f80000000\\0042acea}}. However, the inconsistent use of
 URIs when there are more than one URIs available for the same entity hinders the match from being made. An additional
 retrieval of the resources would be necessary to detect that in the latter case
-\nofootnote{\textit{http://rdf.freebase.com/ns/guid.9202a8c04000641f800000000042acea}} redirects to
+\nofootnote{\textit{http://rdf.freebase.com/ns/guid.9202a8c04000641f80000000\\0042acea}} redirects to
 \nofootnote{\textit{http://rdf.freebase.com/ns/en/google}}, whereas the first example seems to be broken
 (\nofootnote{\textit{http://cb.semsol.org/company/google\#self}} returns the status code 404). The good thing, however, is
 that as soon as \emph{one} match has been detected, one can consolidate the entities from both services.
@@ -448,6 +454,7 @@ We add to this list the automatic conversion of legacy unstructured data to Link
 In order to track the contributions of the various sources, we have decided to use the Provenance Vocabulary~\cite{Hartig:Provenance} by Hartig and Zhao with the prefix \texttt{prv}, the HTTP Vocabulary in RDF~\cite{HTTP:RDF} by Koch \emph{et al.} with prefix \texttt{http}, and a vocabulary for Representing Content in RDF~\cite{CNT:RDF} by the same authors with prefix \texttt{cnt}. We have chosen the HTTP Vocabulary in RDF for the fact that it is a W3C Working Draft  developed by the Evaluation and Repair Tools Working Group (ERT WG), which is part of the World Wide Web Consortium (W3C) Web Accessibility Initiative (WAI). The Provenance Vocabulary was chosen because of its relatively broad implementation in several projects, such as Pubby\footnote{\texttt{http://www4.wiwiss.fu-berlin.de/pubby/}}, Triplify\footnote{\texttt{http://triplify.org/Overview}}, and D2R Server\footnote{\texttt{http://www4.wiwiss.fu-berlin.de/bizer/d2r-server/}}.
 
 While our mash-up API supports two output formats (application/json and text/turtle), we have added provenance information exclusively to the text/turtle variant. In order to represent the extracted named entities in a micropost, we use the Common Tag vocabulary~\cite{CommonTag:Spec}. A micropost is \texttt{ctag:tagged} with a \texttt{ctag:Tag}, which consists of a textual \texttt{ctag:label} and a pointer to a resource that specifies what the label \texttt{ctag:means}. The Common Tag vocabulary is well-established and developed by both industry and academic partners. In order to make statements about a bundle of triples, we group them in a named graph. We use the TriG~\cite{Bizer:TriG} syntax:
+\vspace{2em}
 \begin{lstlisting}
 :G = {
   <https://www.facebook.com/Tomayac/posts/10150175940867286> ctag:tagged [
@@ -465,7 +472,9 @@ First, we state that \emph{:G} is both a \emph{prv:DataItem} and obviously an \e
 
 \subsection{Provenance RDF Overview}                                           \label{sec:appendix}
 This section provides a shortened overview of the provenance RDF in Turtle syntax for a  micropost tagged with the label ``BibTeX'' and the assigned
-meaning \texttt{http://dbpedia.org/resource/BibTeX}. The named graph \texttt{:G} in the first part of the listing contains the absolute data (the fact that the  micropost with the URI \texttt{https://www.facebook.com/Tomayac/posts/\-10150177486072286} is tagged with the label ``BibTeX'', which is represented by the HTTP URI \texttt{http://dbpedia.org/resource/BibTeX}). The second part with metadata about \texttt{:G} says that these facts were generated via two calls, one using the HTTP method \texttt{GET}, and the other \texttt{POST}:
+meaning \texttt{http://dbpedia.org/resource/BibTeX}. The named graph \texttt{:G} in the first part of the listing contains the absolute data (the fact that the  micropost with the URI \texttt{https://www.facebook.com/Tomayac/posts/\-10150177486072286} is tagged with the label ``BibTeX'', which is represented by the HTTP URI \texttt{http://dbpedia.org/resource/BibTeX}). The second part with metadata about \texttt{:G} says that these facts were generated via two calls, one using the HTTP method \texttt{GET}, and the other \texttt{POST}.
+It is to be noted that statements such as in the listing above refer to the triple objects as an identifier for a Web resource (where the Web resource is a representation of the result of the API call at the time where it was \texttt{prv:performedAt}). As provenance metadata always refers to the time context in which a certain statement was made, it is essentially unimportant what representation the resource returns in future.
+\vspace{2em}
 \begin{lstlisting}
 :G = {
   <https://www.facebook.com/Tomayac/posts/10150177486072286> ctag:tagged [
@@ -530,9 +539,7 @@ meaning \texttt{http://dbpedia.org/resource/BibTeX}. The named graph \texttt{:G}
     ] ;
   ] .
 \end{lstlisting}
-
-It is to be noted that statements such as in the listing above refer to the triple objects as an identifier for a Web resource (where the Web resource is a representation of the result of the API call at the time where it was \texttt{prv:performedAt}). As provenance metadata always refers to the time context in which a certain statement was made, it is essentially unimportant what representation the resource returns in future.
-
+\vspace{1.0em}
 \section{Future Work and Conclusion}                                                        
 \label{sec:conclusion}
 In this paper, we have shown how the Provenance
@@ -548,7 +555,7 @@ Already commenced future work will be to explore ways to stick to existing stand
 \section*{Acknowledgments}
 T. Steiner is partially supported by the European Commission under Grant No. 248296 FP7 I-SEARCH project. J. Gabarr\'o is partially supported by TIN-2007-66523 (FORMALISM) and SGR 2009-2015 (ALBCOM). 
 R. Verborgh is funded by Ghent University, the Interdisciplinary Institute for Broadband Technology, the Institute for the Promotion of Innovation by Science and Technology in Flanders, the Fund for Scientific Research Flanders, and the EU.
-
+\newpage
 \bibliographystyle{abbrv}
 \bibliography{nwesp2011}
 
