@@ -31,11 +31,13 @@
 
 %% Define a new 'smallurl' style for the package that will use a smaller font.
 \makeatletter
-\def\url@smallurlstyle{%
-  \@ifundefined{selectfont}{\def\UrlFont{\sf}}{\def\UrlFont{\scriptsize\ttfamily}}}
+\def\url@smallurlstyle{\def\UrlFont{\scriptsize\ttfamily}}
+\def\url@iturlstyle{\def\UrlFont{\it}}
 \makeatother
 %% Now actually use the newly defined style.
 \urlstyle{smallurl}
+\newcommand\uri{\begingroup \urlstyle{iturl}\Url}
+
 \newcommand{\nofootnote}[1]{~#1}
 
 % correct bad hyphenation here
@@ -322,15 +324,15 @@ entity with two URIs while the original result contained seven entities among wh
 \end{lstlisting}
 \vspace{2em}
 
-These results come from a request to our wrapper API via \texttt{GET} \textit{/entity-extraction/combined/Google\%20Translate},
-and the particular services' results can be obtained via \texttt{GET} \textit{/entity-extraction/\{service\_name\}/Google\%20Translate\%20is\%20a\\\%20service\%20by\%20Google}.
-While AlchemyAPI and Zemanta return results from DBpedia and other interlinked LOD cloud resources, OpenCalais returns
+These results come from a request to our wrapper API via \texttt{GET} \uri{/entity-extraction/combined/Google%20Translate},
+and the particular services' results can be obtained via \texttt{GET} \textit{/entity-extraction/service\_name/Google\%20Translate\%20is\%20a\%\linebreak20service\%20by\%20Google}.
+While AlchemyAPI~and Zemanta return results from DBpedia and other interlinked LOD cloud resources, OpenCalais returns
 only results in its own namespace
-(\emph{e.g.}, \nofootnote{\textit{http://d.opencalais.com/er/company/ralg-tr1r/ce181d44-1915-3387-83da-0dc4ec01c6da.rdf}} for the
+(\emph{e.g.}, \uri{http://d.opencalais.com/er/company/ralg-tr1r/ce181d44-1915-3387-83da-0dc4ec01c6da.rdf} for the
 company Google). In this particular case, retrieving the resource RDF representation and parsing for
 \texttt{owl:sameAs} return links to DBpedia. However, in the general case, we found OpenCalais URIs sometimes pointing
 to non-existent resources or to not very rich resources such
-as\nofootnote{\textit{http://d.opencalais.com/pershash-1/cfcf1aa2-de05-3939-a7d5-10c9c7b3e87b.html}}, a URI identifying
+as \uri{http://d.opencalais.com/pershash-1/cfcf1aa2-de05-3939-a7d5-10c9c7b3e87b.html}, a URI identifying
 the current US President Barack Obama where the only information is that Barack Obama is of type person. In order to
 consolidate extracted entities, we use the following approach: we have a look at each of the extracted entities from
 service one and compare each entity's URIs with each URIs from each extracted entity from service two, illustrated below.
@@ -358,9 +360,9 @@ First, we consider the isolated results for the text fragment from AlchemyAPI on
   "source": "alchemyapi"
 }
 \end{lstlisting}
-\vspace{2em}
-Second, we consider the isolated results for the same text fragment from Zemanta only:
 \newpage
+Second, we consider the isolated results for the same text fragment from Zemanta only:
+
 \begin{lstlisting}
 {
   "name": "Google Inc.",
@@ -423,16 +425,16 @@ Finally, we consider the merged results from both Zemanta and AlchemyAPI. Note t
 \end{lstlisting}
 \vspace{2em}
 In this example, the entity names mismatch (``google inc.'' vs. ``google''). However, going down the list of URIs for
-the entity, one can note a match via\nofootnote{\textit{http://dbpedia.org/resource/Google}}. Additionally, there can also
-be seen two would-be matches: \nofootnote{\textit{http://cb.semsol.org/company/google.rdf}}
-vs.\nofootnote{\textit{http://cb.semsol.org/company/google\#self}} and
-\nofootnote{\textit{http://rdf.freebase.com/ns/en/google}} vs.
-\nofootnote{\textit{http://rdf.freebase.com/ns/guid.9202a8c04000641f80000000\\0042acea}}. However, the inconsistent use of
+the entity, one can note a match via \uri{http://dbpedia.org/resource/Google}. Additionally, there can also
+be seen two would-be matches: \uri{http://cb.semsol.org/company/google.rdf}
+vs. \uri{http://cb.semsol.org/company/google#self} and
+\uri{http://rdf.freebase.com/ns/en/google} vs.
+\uri{http://rdf.freebase.com/ns/guid.9202a8c04000641f800000000042acea}. However, the inconsistent use of
 URIs when there are more than one URIs available for the same entity hinders the match from being made. An additional
 retrieval of the resources would be necessary to detect that in the latter case
-\nofootnote{\textit{http://rdf.freebase.com/ns/guid.9202a8c04000641f80000000\\0042acea}} redirects to
-\nofootnote{\textit{http://rdf.freebase.com/ns/en/google}}, whereas the first example seems to be broken
-(\nofootnote{\textit{http://cb.semsol.org/company/google\#self}} returns the status code 404). The good thing, however, is
+\uri{http://rdf.freebase.com/ns/guid.9202a8c04000641f800000000042acea} redirects to
+\uri{http://rdf.freebase.com/ns/en/google}, whereas the first example seems to be broken
+(\uri{http://cb.semsol.org/company/google#self} returns the status code 404). The good thing, however, is
 that as soon as \emph{one} match has been detected, one can consolidate the entities from both services.
 
 Given the mismatching two entity names (``google inc.'' vs. ``google''), the consolidated name is then an array of all
@@ -442,6 +444,8 @@ service one and two are then in turn compared to extracted entities from service
 services. In practice, however, due to the not always given interconnectedness of OpenCalais, there are no matches
 after having compared Zemanta-extracted entities with AlchemyAPI-extracted entities. We maintain provenance metadata for each URI on the lowest data representation level (JSON)
 on both a per URI basis and an entity basis with the NLP-detected entity consolidation.
+
+\vspace{2em}
 
 \section{Tracking Provenance With Multiple Sources}                    \label{sec:tracking}
 As outlined before, we use several data sources (APIs) in the background in order to add meaning to social network microposts. Extracted named entities from a micropost might in consequence be the result of up to four agreeing (or disagreeing) API calls. 
@@ -465,10 +469,14 @@ While our mash-up API supports two output formats (application/json and text/tur
 } .
 \end{lstlisting}
 
+\vspace{2em}
+
 \subsection{The Provenance Vocabulary}                                      \label{sec:provenance}
 In this section, we outline the required steps in order to make statements about the provenance of a group of triples contained in a named graph \texttt{:G} that was generated using several HTTP \texttt{GET} requests to third party APIs. We use the Provenance Vocabulary~\cite{Hartig:Provenance} with prefix \texttt{prv}, the HTTP Vocabulary in RDF~\cite{HTTP:RDF} with prefix \texttt{http}, and the Representing Content in RDF~\cite{CNT:RDF} vocabulary with prefix \texttt{cnt}.
 
-First, we state that \emph{:G} is both a \emph{prv:DataItem} and obviously an \emph{rdfg:Graph}. \emph{:G} is \emph{prv:createdBy} the process of a \emph{prv:DataCreation}. This \emph{prv:DataCreation} is \emph{prv:performedBy} a \emph{prv:NonHumanActor}, a \emph{prvTypes:DataProvidingService} to be precise (simplified as \emph{http://tomayac.no.de/entity-extraction/combined} in the listing). This service is \emph{prv:operatedBy} a human (\texttt{http://tomayac.com/thomas\_steiner.rdf\#me}). Time is often important for provenance, so the \emph{prv:performedAt} date of the \emph{prv:DataCreation} needs to be saved. During the process of the \emph{prv:DataCreation} there are \emph{prv:usedData}, which are \emph{prv:retrievedBy} a \emph{prv:DataAcess} that is \emph{prv:performedAt} a certain time, and \emph{prv:performedBy} a non-human actor (our API) that is \emph{prv:operatedBy} a human (\texttt{http://tomayac.com/thomas\_steiner.rdf\#me}. For the \emph{prv:DataAccess} (there is one for each third party API involved), we \emph{prv:accessedService} from a \emph{prv:DataProvidingService} of which we \emph{prv:accessedResource} at a certain \emph{irw:WebResource}. Therefore, we \emph{prvTypes:exchangedHTTPMessage} which is an \emph{http:Request} using \emph{http:httpVersion} ``1.1'' and the \emph{http:methodName} ``GET''.
+First, we state that \emph{:G} is both a \emph{prv:DataItem} and obviously an \emph{rdfg:Graph}. \emph{:G} is \emph{prv:createdBy} the process of a \emph{prv:DataCreation}. This \emph{prv:DataCreation}~is \emph{prv:per\-formedBy} a \emph{prv:NonHumanActor}, a~\emph{prv:Data\-Providing\-Service} to be precise (simplified as~\uri{http://tomayac.no.de/entity-extraction/combined} in~the~listing). This service is \emph{prv:operatedBy} a human~(\uri{http://tomayac.com/thomas_steiner.rdf#me}). Time is~often important for provenance, so the \emph{prv:performedAt} date of the \emph{prv:DataCreation} needs to be saved. During the process of the \emph{prv:DataCreation} there are \emph{prv:usedData}, which are \emph{prv:retrievedBy} a \emph{prv:DataAcess} that is \emph{prv:performedAt} a certain time, and \emph{prv:performedBy} a non-human actor (our API) that is \emph{prv:operatedBy} a human (\uri{http://tomayac.com/thomas_steiner.rdf#me}. For the \emph{prv:DataAccess} (there is one for each third party API involved), we \emph{prv:accessedService} from a \emph{prv:DataProvidingService} of which we \emph{prv:accessed\-Resource} at a certain \emph{irw:WebResource}. Therefore, we \emph{prvTypes:exchangedHTTPMessage} which is an \emph{http:Request} using \emph{http:httpVersion} ``1.1'' and the \emph{http:methodName} ``GET''.
+
+\clearpage
 
 \subsection{Provenance RDF Overview}                                           \label{sec:appendix}
 This section provides a shortened overview of the provenance RDF in Turtle syntax for a  micropost tagged with the label ``BibTeX'' and the assigned
@@ -564,12 +572,12 @@ R. Verborgh is funded by Ghent University, the Interdisciplinary Institute for B
 \noindent{\bf\Large Author Biographies} \vspace{5mm}
 
 \textbf{Thomas Steiner}
-Thomas Steiner is a proud dad-of-two, a Research Scientist at Google, and a PhD student at UPC.edu. His main research interests these days are the Semantic Web, Linked Data, and the architectural style REST. He holds two Master of Computer Science degrees, one from the Technical University of Karlsruhe, Germany, and the other from the École Nationale Supérieure d'Informatique et de Mathématiques Appliquées de Grenoble, France.
+Thomas Steiner is a proud dad-of-three, a~Research Scientist at Google, and a PhD student at UPC.edu. His main research interests these days are the Semantic Web, Linked Data, and the architectural style REST. He holds two Master of Computer Science degrees, one from the Technical University of Karlsruhe, Germany, and the other from the École Nationale Supérieure d'Informatique et de Mathématiques Appliquées de Grenoble, France.
 
 \vspace{4mm}
 
 \textbf{Ruben Verborgh}
-Ruben Verborgh received his Master degree in Computer Science Engineering from Ghent University, Belgium in 2010. He is a researcher with the Multimedia Lab — Ghent University, Department of Electronics and Information Systems (ELIS) and the Interdisciplinary institute for BroadBand Technology (IBBT). His interests include Semantic Web technologies, multimedia annotation, artificial intelligence and their relation to multimedia processing. Currently, he is working on moving multimedia algorithms to the Web and related issues, like semantic service descriptions.
+Ruben Verborgh received his Master degree in Computer Science Engineering from Ghent University, Belgium in 2010. He is a researcher with the Multimedia Lab--Ghent University, Department of Electronics and Information Systems (ELIS) and the Interdisciplinary institute for BroadBand Technology (IBBT). His interests include Semantic Web technologies, multimedia annotation, artificial intelligence and their relation to multimedia processing. Currently, he is working on moving multimedia algorithms to the Web and related issues, like semantic service descriptions.
 
 \vspace{4mm}
 
